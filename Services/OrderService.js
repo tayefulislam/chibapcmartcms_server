@@ -1,6 +1,9 @@
-const Order = require("../models/Order");
+const orderModel = require("../models/Order");
 
-exports.createNewOrderService = async (newOrder) => {
-  const result = await Order.create(newOrder);
-  return result;
+exports.createNewOrderService = async (order) => {
+  const result = await orderModel.create(order);
+
+  console.log(result);
+
+  return "ok";
 };

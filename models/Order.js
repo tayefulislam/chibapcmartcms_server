@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const moment = require("moment-timezone");
 
 // Define your Order schema
 const orderSchema = new mongoose.Schema(
@@ -13,7 +12,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     itemsDetails: {
-      type: Array,
+      type: String,
     },
     deliveryDate: {
       type: String,
@@ -22,7 +21,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
     },
     totalAmount: {
-      type: Number,
+      type: String,
     },
     orderType: {
       type: String,
@@ -33,4 +32,4 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-const Order = mongoose.model("Order", orderSchema);
+module.exports = mongoose.model("Order", orderSchema);
