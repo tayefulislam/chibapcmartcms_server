@@ -1,6 +1,9 @@
 const Order = require("../models/Order");
 const { createNewCustomerService } = require("../Services/CustomerService");
-const { createNewOrderService } = require("../Services/OrderService");
+const {
+  createNewOrderService,
+  getAllOrderDetailsService,
+} = require("../Services/OrderService");
 
 // Create New Customer
 exports.createNewOrderController = async (req, res, next) => {
@@ -45,6 +48,22 @@ exports.createNewOrderController = async (req, res, next) => {
     res.status(400).json({
       status: "failed",
       message: "New Order Create Failed",
+      error: error.message,
+    });
+  }
+};
+
+// GET ALL ORDER DETAILS
+exports.getAllOrderDetailsController = async (req, res, next) => {
+  console.log("checked");
+  try {
+    const result = await getAllOrderDetailsService();
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: "Get All Order Details Failed",
       error: error.message,
     });
   }

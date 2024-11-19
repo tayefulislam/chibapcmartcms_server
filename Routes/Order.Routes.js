@@ -5,6 +5,10 @@ const router = express.Router();
 const ordersHandleController = require("../Controllers/OrderController");
 
 router
+  .route("/getAllOrderDetails")
+  .get(ordersHandleController.getAllOrderDetailsController);
+
+router
   .route("/createOrder")
   .post(ordersHandleController.createNewOrderController);
 
