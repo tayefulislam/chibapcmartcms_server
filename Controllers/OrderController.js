@@ -15,17 +15,17 @@ exports.createNewOrderController = async (req, res, next) => {
     let newOrderId = `BSJ${String(getDocumentsSize).padStart(6, "0")}`;
 
     // DUPLICATE ORDER ID CHECK
-    let getLastOrder = await Order.find()
-      .sort({ _id: -1 })
-      .select("orderId")
-      .limit(1);
-    console.log("GET", getLastOrder[0].orderId);
+    // let getLastOrder = await Order.find()
+    //   .sort({ _id: -1 })
+    //   .select("orderId")
+    //   .limit(1);
 
-    // IF THE ORDER ID IS DUPLICATE THEN CREATE A NEW ORDER ID
-    if (getLastOrder[0].orderId === newOrderId) {
-      newOrderId = `BSJA${String(getDocumentsSize + 3 + "D").padStart(5, "0")}`;
-      console.log("Hello", newOrderId);
-    }
+    // console.log("Hello", getLastOrder[0].orderId);
+
+    // // IF THE ORDER ID IS DUPLICATE THEN CREATE A NEW ORDER ID
+    // if (getLastOrder[0].orderId === newOrderId) {
+    //   newOrderId = `BSJA${String(getDocumentsSize + 3 + "D").padStart(5, "0")}`;
+    // }
 
     // // Fist Create Customer and get the details
     const createNewCustomerResult = await createNewCustomerService(customer);
