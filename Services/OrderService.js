@@ -9,6 +9,10 @@ exports.createNewOrderService = async (order) => {
 
 exports.getAllOrderDetailsService = async () => {
   console.log("CHECKed 2");
-  const result = await orderModel.find().populate("customerId").exec();
+  const result = await orderModel
+    .find()
+    .populate("customerId")
+    .populate("paymentObjId")
+    .exec();
   return result;
 };

@@ -1,48 +1,46 @@
 const mongoose = require("mongoose");
 
 // Define your Order schema
-const orderSchema = new mongoose.Schema(
+const paymentSchema = new mongoose.Schema(
   {
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
     },
-    paymentObjId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Payments",
+    orderId: {
+      type: String,
+      ref: "Order",
       required: true,
     },
+
     paymentId: {
       type: String,
       required: true,
       unique: true,
     },
+    paymentDate: {
+      type: String,
+    },
+    paymentAmount: {
+      type: String,
+    },
+    courierName: {
+      type: String,
+      default: "JAPAN POST",
+    },
+    trackId: {
+      type: String,
+    },
+    paymentType: {
+      type: String,
+      default: "Cash On Delivery",
+    },
 
-    orderId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    itemsDetails: {
+    comment: {
       type: String,
     },
-    deliveryDate: {
-      type: String,
-    },
-    timeSlot: {
-      type: String,
-    },
-    totalAmount: {
-      type: String,
-    },
-    orderType: {
-      type: String,
-    },
-    deliveryCost: {
-      type: String,
-    },
-    deliveryStatus: {
+    paymentStatus: {
       type: String,
       default: "Pending",
     },
@@ -52,4 +50,4 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Order", orderSchema);
+module.exports = mongoose.model("Payments", paymentSchema);
