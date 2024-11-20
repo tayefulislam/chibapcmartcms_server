@@ -4,11 +4,12 @@ const { createNewCustomerService } = require("../Services/CustomerService");
 const {
   createNewOrderService,
   getAllOrderDetailsService,
+  getSingleOrderWithCustomerPaymentDetailsService,
 } = require("../Services/OrderService");
 
 const { createNewPaymentService } = require("../Services/PaymentsService");
 
-// Create New Customer
+// Create Order with Customer and Payment Details
 exports.createNewOrderController = async (req, res, next) => {
   try {
     const newRequest = req.body;
@@ -76,7 +77,7 @@ exports.createNewOrderController = async (req, res, next) => {
 
 // GET ALL ORDER DETAILS
 exports.getAllOrderDetailsController = async (req, res, next) => {
-  console.log("checked");
+  // console.log("checked");
   try {
     const result = await getAllOrderDetailsService();
 
@@ -85,6 +86,30 @@ exports.getAllOrderDetailsController = async (req, res, next) => {
     res.status(400).json({
       status: "failed",
       message: "Get All Order Details Failed",
+      error: error.message,
+    });
+  }
+};
+
+// GET Single ORDER DETAILS BY ID WITH CUSTOMER AND PAYMENT DETAILS
+
+exports.getSingleOrderWithCustomerPaymentDetailsController = async (
+  req,
+  res,
+  next
+) => {
+  const id = req.params.orderId;
+
+  console.log(id);
+
+  try {
+    const result = await getSingleOrderWithCustomerPaymentDetailsService(id);
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: "Get Single Order With ",
       error: error.message,
     });
   }

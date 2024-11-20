@@ -14,5 +14,18 @@ exports.getAllOrderDetailsService = async () => {
     .populate("customerId")
     .populate("paymentObjId")
     .exec();
+
+  console.log(result);
+  return result;
+};
+
+// get single order details with customer and payment details
+
+exports.getSingleOrderWithCustomerPaymentDetailsService = async (id) => {
+  const result = await orderModel
+    .findById(id)
+    .populate("customerId") // populate customer details
+    .populate("paymentObjId") // populate payment details
+    .exec();
   return result;
 };

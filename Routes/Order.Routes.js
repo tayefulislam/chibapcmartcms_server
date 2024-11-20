@@ -12,4 +12,10 @@ router
   .route("/createOrder")
   .post(ordersHandleController.createNewOrderController);
 
+router
+  .route("/getSingleOrderWithCustomerPaymentDetails/:orderId")
+  .get(
+    ordersHandleController.getSingleOrderWithCustomerPaymentDetailsController
+  );
+
 module.exports = router;
