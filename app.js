@@ -1,7 +1,15 @@
+const cron = require("node-cron");
+
+const UpdateDeliveryAndPaymentStatus = require("./utils/UpdateDeliveryAndPaymentStatus/UpdateDeliveryAndPaymentStatus");
+
+// Schedule the function to run at the top of every hour
+cron.schedule("* * * * *", () => {
+  UpdateDeliveryAndPaymentStatus();
+});
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
 app.use(express.json());
 app.use(cors());
 

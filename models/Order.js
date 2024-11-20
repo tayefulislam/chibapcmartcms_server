@@ -25,7 +25,7 @@ const orderSchema = new mongoose.Schema(
       unique: true,
     },
     itemsDetails: {
-      type: String,
+      type: Array,
     },
     deliveryDate: {
       type: String,
