@@ -4,7 +4,21 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
 
-let trackId = 711053275295;
+const directory = path.join(__dirname, "pdfs");
+if (!fs.existsSync(directory)) {
+  fs.mkdirSync(directory);
+}
+
+async function saveWebsiteAsPDF(url, filePath) {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(url, { waitUntil: "networkidle2" });
+  await page.pdf({ path: filePath, format: "A4" });
+  await browser.close();
+  console.log("PDF saved to", filePath);
+}
+
+let trackId = 711068696155;
 
 const url = `https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=${trackId}&searchKind=S002&locale=en`;
 
@@ -32,27 +46,6 @@ axios
         console.log("Returned to sender");
         console.log(content.lastIndexOf("Returned to sender"));
         status = "Returned";
-
-        const fs = require("fs");
-        const path = require("path");
-
-        const directory = path.join(__dirname, "pdfs");
-        if (!fs.existsSync(directory)) {
-          fs.mkdirSync(directory);
-        }
-
-        async function saveWebsiteAsPDF(url, filePath) {
-          const browser = await puppeteer.launch();
-          const page = await browser.newPage();
-          await page.goto(url, { waitUntil: "networkidle2" });
-          await page.pdf({ path: filePath, format: "A4" });
-          await browser.close();
-          console.log("PDF saved to", filePath);
-        }
-
-        // Example usage
-        // const trackId = 'exampleTrackId'; // Replace with your actual trackId
-        // const url = 'https://example.com'; // Replace with your actual URL
         saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
 
         content = "";
@@ -64,6 +57,7 @@ axios
         console.log("Final delivery");
         console.log(content.lastIndexOf("Final delivery"));
         status = "Delivered";
+        saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
         content = "";
       }
 
