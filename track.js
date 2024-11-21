@@ -1,24 +1,24 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const puppeteer = require("puppeteer");
-const fs = require("fs");
-const path = require("path");
+// const puppeteer = require("puppeteer");
+// const fs = require("fs");
+// const path = require("path");
 
-const directory = path.join(__dirname, "pdfs");
-if (!fs.existsSync(directory)) {
-  fs.mkdirSync(directory);
-}
+// const directory = path.join(__dirname, "pdfs");
+// if (!fs.existsSync(directory)) {
+//   fs.mkdirSync(directory);
+// }
 
-async function saveWebsiteAsPDF(url, filePath) {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto(url, { waitUntil: "networkidle2" });
-  await page.pdf({ path: filePath, format: "A4" });
-  await browser.close();
-  console.log("PDF saved to", filePath);
-}
+// async function saveWebsiteAsPDF(url, filePath) {
+//   const browser = await puppeteer.launch();
+//   const page = await browser.newPage();
+//   await page.goto(url, { waitUntil: "networkidle2" });
+//   await page.pdf({ path: filePath, format: "A4" });
+//   await browser.close();
+//   console.log("PDF saved to", filePath);
+// }
 
-let trackId = 711068696155;
+let trackId = 711053275295;
 
 const url = `https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=${trackId}&searchKind=S002&locale=en`;
 
@@ -45,8 +45,9 @@ axios
       if (content.lastIndexOf("Returned to sender") > 1) {
         console.log("Returned to sender");
         console.log(content.lastIndexOf("Returned to sender"));
+
         status = "Returned";
-        saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
+        // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
 
         content = "";
       }
@@ -57,13 +58,24 @@ axios
         console.log("Final delivery");
         console.log(content.lastIndexOf("Final delivery"));
         status = "Delivered";
-        saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
+        // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
+        content = "";
+      }
+
+      if (content.lastIndexOf("Allocated to delivery staff") > 1) {
+        console.log("Allocated to delivery staff");
+        console.log(content.lastIndexOf("Allocated to delivery staff"));
+        status = "Out for delivery";
+        // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
         content = "";
       }
 
       // Check Redelivery Status
 
-      if (content.lastIndexOf("A request for re-delivery was received") > 1) {
+      if (
+        content.lastIndexOf("A request for re-delivery was received") >
+        content.lastIndexOf("Absence. Attempted delivery.")
+      ) {
         console.log("A request for re-delivery was received ");
         console.log(
           content.lastIndexOf("A request for re-delivery was received")
@@ -71,6 +83,15 @@ axios
         status = "Redelivery Done";
         content = "";
       }
+
+      // if (content.lastIndexOf("A request for re-delivery was received") > 1) {
+      //   console.log("A request for re-delivery was received ");
+      //   console.log(
+      //     content.lastIndexOf("A request for re-delivery was received")
+      //   );
+      //   status = "Redelivery Done";
+      //   content = "";
+      // }
 
       // Check Absence
 
@@ -87,6 +108,13 @@ axios
         console.log("Investigation");
         console.log(content.lastIndexOf("Investigation"));
         status = "Investigation";
+        content = "";
+      }
+
+      if (content.lastIndexOf("Processing at delivery post office") > 1) {
+        console.log("Processing at delivery post office");
+        console.log(content.lastIndexOf("Processing at delivery post office"));
+        status = "Reached Post Office";
         content = "";
       }
 

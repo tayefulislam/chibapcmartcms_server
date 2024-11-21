@@ -61,7 +61,7 @@ exports.createNewOrderController = async (req, res, next) => {
 
     // Create New Order and get the details
     const createNewOrderResult = await createNewOrderService(newOrder);
-    console.log(createNewOrderResult);
+    // console.log(createNewOrderResult);
 
     const result = createNewOrderResult;
 
@@ -100,7 +100,7 @@ exports.getSingleOrderWithCustomerPaymentDetailsController = async (
 ) => {
   const id = req.params.orderId;
 
-  console.log(id);
+  // console.log(id);
 
   try {
     const result = await getSingleOrderWithCustomerPaymentDetailsService(id);

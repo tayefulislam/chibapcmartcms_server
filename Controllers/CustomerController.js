@@ -22,7 +22,7 @@ exports.createNewCustomerController = async (req, res, next) => {
 exports.getCustomerDetailsByIdController = async (req, res, next) => {
   try {
     const id = req.params.CustomerId;
-    console.log(id);
+    // console.log(id);
 
     const result = await getCustomerDetailsById(id);
     res.status(200).send(result);
@@ -34,3 +34,20 @@ exports.getCustomerDetailsByIdController = async (req, res, next) => {
     });
   }
 };
+
+// update details status by id
+
+// exports.updateDeliveryStatusController = async (req, res, next) => {
+//   try {
+//     const id = req.params.CustomerId;
+//     const status = req.body.status;
+//     const result = await updateDeliveryStatusService(id, status);
+//     res.status(200).send(result);
+//   } catch (error) {
+//     res.status(400).json({
+//       status: "failed",
+//       message: "Update Delivery Status Failed",
+//       error: error.message,
+//     });
+//   }
+// };

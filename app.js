@@ -9,8 +9,9 @@ app.use(cors());
 // UpdateDeliveryAndPaymentStatus
 const UpdateDeliveryAndPaymentStatus = require("./utils/UpdateDeliveryAndPaymentStatus/UpdateDeliveryAndPaymentStatus");
 
-// Schedule the function to run at the top of every hour
-// cron.schedule("* * * * *", () => {
+//Schedule the function to run at the top of every hour
+
+// cron.schedule("* * * * * *", () => {
 //   UpdateDeliveryAndPaymentStatus();
 // });
 

@@ -8,14 +8,14 @@ exports.createNewOrderService = async (order) => {
 // get all order details with customer details
 
 exports.getAllOrderDetailsService = async () => {
-  console.log("CHECKed 2");
+  // console.log("CHECKed 2");
   const result = await orderModel
     .find()
     .populate("customerId")
     .populate("paymentObjId")
     .exec();
 
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
@@ -27,5 +27,16 @@ exports.getSingleOrderWithCustomerPaymentDetailsService = async (id) => {
     .populate("customerId") // populate customer details
     .populate("paymentObjId") // populate payment details
     .exec();
+  return result;
+};
+
+exports.updateDeliveryStatusService = async (id, status) => {
+  console.log("From updateDeliveryStatusService", id, status);
+
+  const result = await orderModel.findByIdAndUpdate(
+    id,
+    { deliveryStatus: status },
+    { new: true }
+  );
   return result;
 };

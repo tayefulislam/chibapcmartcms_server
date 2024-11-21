@@ -2,7 +2,7 @@ const CustomerModel = require("../models/Customer");
 
 // Create New Customer
 exports.createNewCustomerService = async (newCustomer) => {
-  console.log("New customer - service" + newCustomer);
+  // console.log("New customer - service" + newCustomer);
   const result = await CustomerModel.create(newCustomer);
   return result;
 };
