@@ -34,7 +34,13 @@ const paymentSchema = new mongoose.Schema(
     },
     paymentType: {
       type: String,
-      default: "Cash On Delivery",
+    },
+    bankName: {
+      type: String,
+    },
+
+    transactionNumber: {
+      type: String,
     },
 
     comment: {

@@ -18,7 +18,7 @@ const cheerio = require("cheerio");
 //   console.log("PDF saved to", filePath);
 // }
 
-let trackId = 711053275295;
+let trackId = 711072773036;
 
 const url = `https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=${trackId}&searchKind=S002&locale=en`;
 

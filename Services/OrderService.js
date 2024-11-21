@@ -11,6 +11,7 @@ exports.getAllOrderDetailsService = async () => {
   // console.log("CHECKed 2");
   const result = await orderModel
     .find()
+    .sort({ _id: -1 })
     .populate("customerId")
     .populate("paymentObjId")
     .exec();

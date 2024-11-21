@@ -32,6 +32,8 @@ async function UpdateDeliveryAndPaymentStatus() {
       let trackId = item.paymentObjId.trackId;
 
       const url = `https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=${trackId}&searchKind=S002&locale=en`;
+
+      const url2 = `https://trackings.post.japanpost.jp/services/sp/srv/search?requestNo1=${trackId}&search=Beginning&locale=en`;
       // console.log(url);
 
       axios
@@ -108,7 +110,7 @@ async function UpdateDeliveryAndPaymentStatus() {
             if (content.lastIndexOf("Absence. Attempted delivery.") > 1) {
               console.log("Absence. Attempted delivery.");
               console.log(content.lastIndexOf("Absence. Attempted delivery."));
-              status = "Attempted";
+              status = "Absence";
               content = "";
             }
 
