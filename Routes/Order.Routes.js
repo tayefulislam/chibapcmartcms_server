@@ -18,4 +18,8 @@ router
     ordersHandleController.getSingleOrderWithCustomerPaymentDetailsController
   );
 
+router
+  .route("/updateOrderDetails")
+  .put(ordersHandleController.updateOrderDetailsController);
+
 module.exports = router;

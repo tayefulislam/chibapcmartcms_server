@@ -1,13 +1,20 @@
 const OrderModel = require("../models/Order");
 const PaymentModel = require("../models/Payments");
-const { createNewCustomerService } = require("../Services/CustomerService");
+const {
+  createNewCustomerService,
+  updateCustomerDetailsByIdService,
+} = require("../Services/CustomerService");
 const {
   createNewOrderService,
   getAllOrderDetailsService,
   getSingleOrderWithCustomerPaymentDetailsService,
+  updateOrderDetailsService,
 } = require("../Services/OrderService");
 
-const { createNewPaymentService } = require("../Services/PaymentsService");
+const {
+  createNewPaymentService,
+  updatePaymentDetailsService,
+} = require("../Services/PaymentsService");
 
 // Create Order with Customer and Payment Details
 exports.createNewOrderController = async (req, res, next) => {
@@ -110,6 +117,38 @@ exports.getSingleOrderWithCustomerPaymentDetailsController = async (
     res.status(400).json({
       status: "failed",
       message: "Get Single Order With ",
+      error: error.message,
+    });
+  }
+};
+
+exports.updateOrderDetailsController = async (req, res, next) => {
+  try {
+    const reqCheck = req.body;
+    console.log(reqCheck.orderDetails);
+
+    const orderResult = await updateOrderDetailsService(
+      reqCheck.orderId,
+      reqCheck.orderDetails
+    );
+
+    const paymentResult = await updatePaymentDetailsService(
+      reqCheck.paymentObjId,
+      reqCheck.paymentDetails
+    );
+
+    const customerResult = await updateCustomerDetailsByIdService(
+      reqCheck.customerId,
+      reqCheck.customerDetails
+    );
+
+    console.log(customerResult, orderResult, paymentResult);
+
+    res.status(200).send(customerResult, orderResult, paymentResult);
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: "Update Order Details Failed",
       error: error.message,
     });
   }

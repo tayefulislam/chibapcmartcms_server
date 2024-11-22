@@ -12,3 +12,12 @@ exports.getCustomerDetailsById = async (id) => {
   const result = await CustomerModel.findById(id);
   return result;
 };
+
+exports.updateCustomerDetailsByIdService = async (id, customer) => {
+  const result = await CustomerModel.findByIdAndUpdate(
+    { _id: id },
+    { $set: customer },
+    { new: true }
+  );
+  return result;
+};

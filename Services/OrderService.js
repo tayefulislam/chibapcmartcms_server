@@ -41,3 +41,14 @@ exports.updateDeliveryStatusService = async (id, status) => {
   );
   return result;
 };
+
+exports.updateOrderDetailsService = async (id, order) => {
+  // const result = await orderModel.findByIdAndUpdate(id, order, { new: true });
+
+  const result = await orderModel.findOneAndUpdate(
+    { _id: id },
+    { $set: order },
+    { new: true }
+  );
+  return result;
+};

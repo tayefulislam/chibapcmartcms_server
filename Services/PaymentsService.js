@@ -7,3 +7,13 @@ exports.createNewPaymentService = async (payment) => {
   // console.log(result);
   return result;
 };
+
+exports.updatePaymentDetailsService = async (id, payment) => {
+  const result = await paymentModel.findOneAndUpdate(
+    { _id: id },
+    { $set: payment },
+    { new: true }
+  );
+
+  return result;
+};
