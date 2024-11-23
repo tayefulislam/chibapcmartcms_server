@@ -16,7 +16,7 @@ async function UpdateDeliveryStatus(item, status) {
 async function UpdateDeliveryAndPaymentStatus() {
   const result = await orderModel
     .find(
-      { deliveryStatus: { $nin: ["Canceled", "Delivered", "Returned"] } },
+      { deliveryStatus: { $nin: ["Cancelled", "Delivered", "Returned"] } },
       "_id"
     )
     .populate({
@@ -123,10 +123,10 @@ async function UpdateDeliveryAndPaymentStatus() {
               content = "";
             }
 
-            if (content.lastIndexOf("Processing at delivery post office") > 1) {
-              console.log("Processing at delivery post office");
+            if (content.lastIndexOf("Processing at delivery Post Office") > 1) {
+              console.log("Processing at delivery Post Office");
               console.log(
-                content.lastIndexOf("Processing at delivery post office")
+                content.lastIndexOf("Processing at delivery Post Office")
               );
               status = "Reached Post Office";
               content = "";

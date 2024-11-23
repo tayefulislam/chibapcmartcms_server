@@ -27,7 +27,6 @@ const paymentSchema = new mongoose.Schema(
     },
     courierName: {
       type: String,
-      default: "JAPAN POST",
     },
     trackId: {
       type: String,

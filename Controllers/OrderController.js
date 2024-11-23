@@ -85,8 +85,9 @@ exports.createNewOrderController = async (req, res, next) => {
 // GET ALL ORDER DETAILS
 exports.getAllOrderDetailsController = async (req, res, next) => {
   // console.log("checked");
+
   try {
-    const result = await getAllOrderDetailsService();
+    const result = await getAllOrderDetailsService(req);
 
     res.status(200).send(result);
   } catch (error) {
@@ -125,7 +126,7 @@ exports.getSingleOrderWithCustomerPaymentDetailsController = async (
 exports.updateOrderDetailsController = async (req, res, next) => {
   try {
     const reqCheck = req.body;
-    console.log(reqCheck.orderDetails);
+    // console.log(reqCheck);
 
     const orderResult = await updateOrderDetailsService(
       reqCheck.orderId,

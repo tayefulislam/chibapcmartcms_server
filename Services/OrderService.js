@@ -7,17 +7,33 @@ exports.createNewOrderService = async (order) => {
 
 // get all order details with customer details
 
-exports.getAllOrderDetailsService = async () => {
+exports.getAllOrderDetailsService = async (req) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
   // console.log("CHECKed 2");
   const result = await orderModel
     .find()
     .sort({ _id: -1 })
     .populate("customerId")
     .populate("paymentObjId")
+    .skip((page - 1) * limit)
+    .limit(limit)
     .exec();
 
+  const totalOrders = await orderModel.countDocuments();
+
+  const calculation = {
+    result,
+    totalPages: Math.ceil(totalOrders / limit),
+    currentPage: page,
+  };
+
   // console.log(result);
-  return result;
+
+  // res.json({ orders, totalPages: Math.ceil(totalOrders / limit), currentPage: page, });
+
+  return calculation;
 };
 
 // get single order details with customer and payment details
