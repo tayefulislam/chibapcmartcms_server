@@ -11,10 +11,10 @@ app.use(cors());
 const UpdateDeliveryAndPaymentStatus = require("./utils/UpdateDeliveryAndPaymentStatus/UpdateDeliveryAndPaymentStatus");
 
 //Schedule the function to run at the top of every hour
-
-// cron.schedule("*/2 * * * *", () => {
-//   UpdateDeliveryAndPaymentStatus();
-// });
+// UpdateDeliveryAndPaymentStatus();
+cron.schedule("*/2 * * * *", () => {
+  UpdateDeliveryAndPaymentStatus();
+});
 
 const orderRequestRoute = require("./Routes/Order.Routes");
 const customerRequestRoute = require("./Routes/Customer.Routes");

@@ -46,6 +46,9 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "Pending",
     },
+    searchKeyWord: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -53,9 +56,9 @@ const orderSchema = new mongoose.Schema(
 );
 
 orderSchema.index({
-  "customerId.customerName": "text",
   orderId: "text",
   paymentId: "text",
+  searchKeyWord: "text",
   "itemsDetails.itemName": "text",
 });
 
