@@ -68,3 +68,31 @@ exports.updateOrderDetailsService = async (id, order) => {
   );
   return result;
 };
+
+// get order total amount by status
+
+exports.getOrderTotalAmountByStatusService = async () => {
+  const result = await orderModel.aggregate([
+    {
+      $group: {
+        _id: "$deliveryStatus",
+        totalAmount: { $sum: { $toInt: "$totalAmount" } },
+        documentCount: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        deliveryStatus: "$_id",
+        _id: 0,
+        totalAmount: 1,
+        documentCount: 1,
+      },
+    },
+  ]);
+  return result;
+};
+
+exports.getPreOrderCountService = async () => {
+  const result = await orderModel.countDocuments({ orderType: "Pre-Order" });
+  return result;
+};

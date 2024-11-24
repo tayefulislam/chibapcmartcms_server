@@ -9,6 +9,8 @@ const {
   getAllOrderDetailsService,
   getSingleOrderWithCustomerPaymentDetailsService,
   updateOrderDetailsService,
+  getOrderTotalAmountByStatusService,
+  getPreOrderCountService,
 } = require("../Services/OrderService");
 
 const {
@@ -123,6 +125,8 @@ exports.getSingleOrderWithCustomerPaymentDetailsController = async (
   }
 };
 
+// UPDATE ORDER DETAILS WITH CUSTOMER AND PAYMENT
+
 exports.updateOrderDetailsController = async (req, res, next) => {
   try {
     const reqCheck = req.body;
@@ -143,13 +147,35 @@ exports.updateOrderDetailsController = async (req, res, next) => {
       reqCheck.customerDetails
     );
 
-    console.log(customerResult, orderResult, paymentResult);
+    // console.log(customerResult, orderResult, paymentResult);
 
     res.status(200).send(customerResult, orderResult, paymentResult);
   } catch (error) {
     res.status(400).json({
       status: "failed",
       message: "Update Order Details Failed",
+      error: error.message,
+    });
+  }
+};
+
+// GET // get order total amount by status
+
+exports.getOrderTotalAmountByStatusController = async (req, res, next) => {
+  try {
+    // const status = req.query.status;
+
+    const statusOrder = await getOrderTotalAmountByStatusService();
+    const preOrder = await getPreOrderCountService();
+
+    const data = { statusOrder, preOrder };
+    console.log(data);
+
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: "Get Order Total Amount By Status Failed",
       error: error.message,
     });
   }

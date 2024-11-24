@@ -1,6 +1,7 @@
 const cron = require("node-cron");
 const path = require("path");
 const express = require("express");
+
 const app = express();
 const cors = require("cors");
 app.use(express.json());
@@ -19,7 +20,7 @@ const orderRequestRoute = require("./Routes/Order.Routes");
 const customerRequestRoute = require("./Routes/Customer.Routes");
 
 app.get("/", (req, res) => {
-  res.send("CHIBA PC MART API - DEV");
+  res.send("Chiba pc mart CMS");
 });
 
 // Define a route to serve the PDF file

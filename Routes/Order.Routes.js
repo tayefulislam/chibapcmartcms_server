@@ -22,4 +22,8 @@ router
   .route("/updateOrderDetails")
   .put(ordersHandleController.updateOrderDetailsController);
 
+router
+  .route("/getOrderTotalAmountByStatus")
+  .get(ordersHandleController.getOrderTotalAmountByStatusController);
+
 module.exports = router;
