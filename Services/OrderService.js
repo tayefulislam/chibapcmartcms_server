@@ -8,20 +8,29 @@ exports.createNewOrderService = async (order) => {
 // get all order details with customer details
 
 exports.getAllOrderDetailsService = async (req) => {
+  const keyword = req.query.s || ""; // Use an empty string if the keyword is not provided
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
 
-  // console.log("CHECKed 2");
+  // If the keyword is provided and not just a blank string, use the $text search query
+  const query = keyword.trim() ? { $text: { $search: keyword } } : {};
+
   const result = await orderModel
-    .find()
-    .sort({ _id: -1 })
+    .find(query, keyword.trim() ? { score: { $meta: "textScore" } } : {})
+    .sort(keyword.trim() ? { score: { $meta: "textScore" } } : { _id: -1 })
     .populate("customerId")
     .populate("paymentObjId")
     .skip((page - 1) * limit)
     .limit(limit)
     .exec();
 
-  const totalOrders = await orderModel.countDocuments();
+  let totalOrders;
+
+  if (keyword.trim()) {
+    totalOrders = await orderModel.countDocuments(query);
+  } else {
+    totalOrders = await orderModel.countDocuments();
+  }
 
   const calculation = {
     result,
@@ -29,12 +38,37 @@ exports.getAllOrderDetailsService = async (req) => {
     currentPage: page,
   };
 
-  // console.log(result);
-
-  // res.json({ orders, totalPages: Math.ceil(totalOrders / limit), currentPage: page, });
-
   return calculation;
 };
+
+// exports.getAllOrderDetailsService = async (req) => {
+//   const page = parseInt(req.query.page) || 1;
+//   const limit = parseInt(req.query.limit) || 10;
+
+//   // console.log("CHECKed 2");
+//   const result = await orderModel
+//     .find()
+//     .sort({ _id: -1 })
+//     .populate("customerId")
+//     .populate("paymentObjId")
+//     .skip((page - 1) * limit)
+//     .limit(limit)
+//     .exec();
+
+//   const totalOrders = await orderModel.countDocuments();
+
+//   const calculation = {
+//     result,
+//     totalPages: Math.ceil(totalOrders / limit),
+//     currentPage: page,
+//   };
+
+//   // console.log(result);
+
+//   // res.json({ orders, totalPages: Math.ceil(totalOrders / limit), currentPage: page, });
+
+//   return calculation;
+// };
 
 // get single order details with customer and payment details
 

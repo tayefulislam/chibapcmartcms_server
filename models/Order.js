@@ -52,4 +52,11 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+orderSchema.index({
+  "customerId.customerName": "text",
+  orderId: "text",
+  paymentId: "text",
+  "itemsDetails.itemName": "text",
+});
+
 module.exports = mongoose.model("Order", orderSchema);
