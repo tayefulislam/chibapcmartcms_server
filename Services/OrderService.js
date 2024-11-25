@@ -8,8 +8,10 @@ exports.createNewOrderService = async (order) => {
 // get all order details with customer details
 exports.getAllOrderDetailsService = async (req) => {
   const keyword = req.query.s || ""; // Use an empty string if the keyword is not provided
+  const orderType = req.query.orderType || "";
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
+  const deliveryStatus = req.query.deliveryStatus || "";
 
   const searchQuery = [];
 
@@ -54,6 +56,14 @@ exports.getAllOrderDetailsService = async (req) => {
     });
   }
 
+  if (orderType.trim()) {
+    searchQuery.push({ $match: { orderType: orderType } });
+  }
+
+  if (deliveryStatus.trim()) {
+    searchQuery.push({ $match: { deliveryStatus: deliveryStatus } });
+  }
+
   // Add lookup stages to populate the referenced fields
   searchQuery.push(
     {
@@ -79,6 +89,7 @@ exports.getAllOrderDetailsService = async (req) => {
       $unwind: "$paymentObjId",
     },
     { $skip: (page - 1) * limit },
+
     { $limit: limit }
   );
 
@@ -130,6 +141,16 @@ exports.getAllOrderDetailsService = async (req) => {
       $count: "total",
     },
   ];
+
+  // Add the match stage to the count query if orderType is provided
+
+  if (orderType.trim()) {
+    totalOrdersQuery.push({ $match: { orderType: orderType } });
+  }
+
+  if (deliveryStatus.trim()) {
+    totalOrdersQuery.push({ $match: { deliveryStatus: deliveryStatus } });
+  }
 
   // Only perform the count query if a keyword is provided
   const totalOrders = keyword.trim()

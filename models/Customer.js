@@ -20,6 +20,9 @@ const CustomerSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    socialMedia: {
+      type: String,
+    },
     role: {
       type: String,
       default: "customer",
