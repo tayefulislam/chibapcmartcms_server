@@ -44,7 +44,7 @@ const orderSchema = new mongoose.Schema(
     },
     deliveryStatus: {
       type: String,
-      default: "Pending",
+      default: "Created",
     },
     searchKeyWord: {
       type: String,

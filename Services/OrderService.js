@@ -66,6 +66,7 @@ exports.getAllOrderDetailsService = async (req) => {
 
   // Add lookup stages to populate the referenced fields
   searchQuery.push(
+    { $sort: { _id: -1 } },
     {
       $lookup: {
         from: "customers",
@@ -93,10 +94,7 @@ exports.getAllOrderDetailsService = async (req) => {
     { $limit: limit }
   );
 
-  const result = await orderModel
-    .aggregate(searchQuery)
-    .sort({ _id: -1 })
-    .exec();
+  const result = await orderModel.aggregate(searchQuery).exec();
 
   // Count documents matching the search query
   const totalOrdersQuery = [
