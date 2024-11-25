@@ -18,7 +18,7 @@ const cheerio = require("cheerio");
 //   console.log("PDF saved to", filePath);
 // }
 
-let trackId = 711072773143;
+let trackId = 711072773235;
 
 const url = `https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=${trackId}&searchKind=S002&locale=en`;
 
@@ -55,9 +55,16 @@ axios
       // Check Final Delivery
 
       if (content.lastIndexOf("Final delivery") > 1) {
-        console.log("Final delivery");
-        console.log(content.lastIndexOf("Final delivery"));
-        status = "Delivered";
+        // console.log("Final delivery");
+        // console.log(content.lastIndexOf("Final delivery"));
+
+        const getDeliveryTime = content.slice(
+          content.lastIndexOf("Final delivery") - 17,
+          content.lastIndexOf("Final delivery")
+        );
+
+        console.log(new Date(getDeliveryTime));
+        status = "Delivered = ";
         // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
         content = "";
       }
@@ -140,6 +147,20 @@ axios
     }
 
     console.log(status);
+
+    // Get Delivery Time
+    // let fromIndex = content2.indexOf("From");
+
+    // if (fromIndex > 1) {
+    //   const getDeliveryTime = content2.slice(fromIndex, fromIndex + 19);
+    //   console.log(getDeliveryTime);
+    // }
+
+    // console.log(
+    //   content2.slice(content2.indexOf("From")),
+    //   content2.indexOf("From") + 30
+    // );
+    // console.log(content2);
 
     //
 
