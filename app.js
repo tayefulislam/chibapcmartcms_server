@@ -12,7 +12,7 @@ const UpdateDeliveryAndPaymentStatus = require("./utils/UpdateDeliveryAndPayment
 
 //Schedule the function to run at the top of every hour
 // UpdateDeliveryAndPaymentStatus();
-cron.schedule("* * * * * *", () => {
+cron.schedule("*/2 * * * *", () => {
   UpdateDeliveryAndPaymentStatus();
 });
 

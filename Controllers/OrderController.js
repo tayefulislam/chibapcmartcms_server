@@ -11,6 +11,7 @@ const {
   updateOrderDetailsService,
   getOrderTotalAmountByStatusService,
   getPreOrderCountService,
+  getAllPreOrderService,
 } = require("../Services/OrderService");
 
 const {
@@ -168,7 +169,7 @@ exports.getOrderTotalAmountByStatusController = async (req, res, next) => {
     // const status = req.query.status;
 
     const statusOrder = await getOrderTotalAmountByStatusService();
-    const preOrder = await getPreOrderCountService();
+    let preOrder = await getPreOrderCountService();
 
     const data = { statusOrder, preOrder };
     console.log(data);
@@ -198,3 +199,16 @@ exports.getOrderTotalAmountByStatusController = async (req, res, next) => {
 //     });
 //   }
 // };
+
+exports.getAllPreOrderController = async () => {
+  try {
+    const result = await getAllPreOrderService();
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: "Get All Pre Order Failed",
+      error: error.message,
+    });
+  }
+};
