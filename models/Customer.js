@@ -18,7 +18,6 @@ const CustomerSchema = new mongoose.Schema(
     },
     date: {
       type: Date,
-      default: Date.now,
     },
     socialMedia: {
       type: String,

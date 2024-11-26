@@ -5,12 +5,12 @@ const orderModel = require("../../models/Order");
 
 const { updateDeliveryStatusService } = require("../../Services/OrderService");
 
-async function UpdateDeliveryStatus(item, status) {
-  console.log("order Id", item._id, status);
+async function UpdateDeliveryStatus(item, status, date) {
+  // console.log("order Id", item._id, status);
 
-  const result = await updateDeliveryStatusService(item._id, status);
+  const result = await updateDeliveryStatusService(item._id, status, date);
 
-  console.log(result);
+  // console.log(result);
 }
 
 async function UpdateDeliveryAndPaymentStatus() {
@@ -28,6 +28,7 @@ async function UpdateDeliveryAndPaymentStatus() {
   result?.map((item) => {
     if (item.paymentObjId.trackId) {
       let status;
+      let deliveryDate;
 
       let trackId = item.paymentObjId.trackId;
 
@@ -55,13 +56,14 @@ async function UpdateDeliveryAndPaymentStatus() {
             // Check Return
 
             if (content.lastIndexOf("Returned to sender") > 1) {
-              console.log("Returned to sender");
-              console.log(content.lastIndexOf("Returned to sender"));
+              // console.log("Returned to sender");
+              // console.log(content.lastIndexOf("Returned to sender"));
 
               status = "Returned";
               // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
 
               content = "";
+              deliveryDate = "";
             }
 
             // Check Final Delivery
@@ -70,16 +72,25 @@ async function UpdateDeliveryAndPaymentStatus() {
               console.log("Final delivery");
               console.log(content.lastIndexOf("Final delivery"));
               status = "Delivered";
+
+              const getDeliveryTime = content.slice(
+                content.lastIndexOf("Final delivery") - 17,
+                content.lastIndexOf("Final delivery")
+              );
+
+              deliveryDate = new Date(getDeliveryTime);
+              console.log(deliveryDate);
               // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
               content = "";
             }
 
             if (content.lastIndexOf("Allocated to delivery staff") > 1) {
-              console.log("Allocated to delivery staff");
-              console.log(content.lastIndexOf("Allocated to delivery staff"));
+              // console.log("Allocated to delivery staff");
+              // console.log(content.lastIndexOf("Allocated to delivery staff"));
               status = "Out for delivery";
               // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
               content = "";
+              deliveryDate = "";
             }
 
             // Check Redelivery Status
@@ -88,12 +99,13 @@ async function UpdateDeliveryAndPaymentStatus() {
               content.lastIndexOf("A request for re-delivery was received") >
               content.lastIndexOf("Absence. Attempted delivery.")
             ) {
-              console.log("A request for re-delivery was received ");
-              console.log(
-                content.lastIndexOf("A request for re-delivery was received")
-              );
+              // console.log("A request for re-delivery was received ");
+              // console.log(
+              //   content.lastIndexOf("A request for re-delivery was received")
+              // );
               status = "Redelivery Done";
               content = "";
+              deliveryDate = "";
             }
 
             // if (content.lastIndexOf("A request for re-delivery was received") > 1) {
@@ -108,56 +120,61 @@ async function UpdateDeliveryAndPaymentStatus() {
             // Check Absence
 
             if (content.lastIndexOf("Absence. Attempted delivery.") > 1) {
-              console.log("Absence. Attempted delivery.");
-              console.log(content.lastIndexOf("Absence. Attempted delivery."));
+              // console.log("Absence. Attempted delivery.");
+              // console.log(content.lastIndexOf("Absence. Attempted delivery."));
               status = "Absence";
               content = "";
+              deliveryDate = "";
             }
 
             // Check Investigation ( Normal Happend When address is incorret or Reject the Item)
 
             if (content.lastIndexOf("Investigation") > 1) {
-              console.log("Investigation");
-              console.log(content.lastIndexOf("Investigation"));
+              // console.log("Investigation");
+              // console.log(content.lastIndexOf("Investigation"));
               status = "Investigation";
               content = "";
+              deliveryDate = "";
             }
 
             if (content.lastIndexOf("Processing at delivery Post Office") > 1) {
-              console.log("Processing at delivery Post Office");
-              console.log(
-                content.lastIndexOf("Processing at delivery Post Office")
-              );
+              // console.log("Processing at delivery Post Office");
+              // console.log(
+              //   content.lastIndexOf("Processing at delivery Post Office")
+              // );
               status = "Reached Post Office";
               content = "";
+              deliveryDate = "";
             }
 
             // Check Out From Post office or not
 
             if (content.lastIndexOf("En route") > 1) {
-              console.log("En route");
-              console.log(content.lastIndexOf("En route"));
+              // console.log("En route");
+              // console.log(content.lastIndexOf("En route"));
               status = "En route";
               content = "";
+              deliveryDate = "";
             }
 
             //
 
             if (content.indexOf("Posting/Collection") > 1) {
-              console.log("Posting/Collection");
-              console.log(content.indexOf("Posting/Collection"));
+              // console.log("Posting/Collection");
+              // console.log(content.indexOf("Posting/Collection"));
               status = "Post Office Drop";
               content = "";
+              deliveryDate = "";
             }
 
             //
           }
 
           {
-            status: UpdateDeliveryStatus(item, status);
+            status: UpdateDeliveryStatus(item, status, deliveryDate);
           }
 
-          console.log(status);
+          // console.log(status);
         })
         .catch((error) => {
           console.error(`Error fetching the URL: ${error}`);

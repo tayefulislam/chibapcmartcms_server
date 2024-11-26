@@ -28,7 +28,7 @@ const orderSchema = new mongoose.Schema(
       type: Array,
     },
     deliveryDate: {
-      type: String,
+      type: Date,
     },
     timeSlot: {
       type: String,

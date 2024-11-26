@@ -132,6 +132,8 @@ exports.updateOrderDetailsController = async (req, res, next) => {
     const reqCheck = req.body;
     // console.log(reqCheck);
 
+    if (reqCheck.customerDetails) {
+    }
     const orderResult = await updateOrderDetailsService(
       reqCheck.orderId,
       reqCheck.orderDetails
@@ -180,3 +182,19 @@ exports.getOrderTotalAmountByStatusController = async (req, res, next) => {
     });
   }
 };
+
+// // UPDATE DELIVERY DATE if delivered
+// exports.updateDeliveryDate = async (req, res) => {
+//   try {
+//     const orderId = req.params.orderId;
+//     const deliveryDate = req.body.deliveryDate;
+//     const result = await updateDeliveryDateService(orderId, deliveryDate);
+//     res.status(200).send(result);
+//   } catch (error) {
+//     res.status(400).json({
+//       status: "failed",
+//       message: "Update Delivery Date Failed",
+//       error: error.message,
+//     });
+//   }
+// };

@@ -243,15 +243,26 @@ exports.getSingleOrderWithCustomerPaymentDetailsService = async (id) => {
   return result;
 };
 
-exports.updateDeliveryStatusService = async (id, status) => {
-  console.log("From updateDeliveryStatusService", id, status);
+exports.updateDeliveryStatusService = async (id, status, date) => {
+  if (date) {
+    console.log("From updateDeliveryStatusService", date);
+  }
 
-  const result = await orderModel.findByIdAndUpdate(
-    id,
-    { deliveryStatus: status },
-    { new: true }
-  );
-  return result;
+  if (date) {
+    const result = await orderModel.findByIdAndUpdate(
+      id,
+      { deliveryStatus: status, deliveryDate: date },
+      { new: true }
+    );
+    return result;
+  } else {
+    const result = await orderModel.findByIdAndUpdate(
+      id,
+      { deliveryStatus: status },
+      { new: true }
+    );
+    return result;
+  }
 };
 
 exports.updateOrderDetailsService = async (id, order) => {
