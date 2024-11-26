@@ -29,6 +29,7 @@ async function UpdateDeliveryAndPaymentStatus() {
     if (item.paymentObjId.trackId) {
       let status;
       let deliveryDate;
+      let paymentStatus;
 
       let trackId = item.paymentObjId.trackId;
 
@@ -72,6 +73,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               console.log("Final delivery");
               console.log(content.lastIndexOf("Final delivery"));
               status = "Delivered";
+              paymentStatus = "Paid";
 
               const getDeliveryTime = content.slice(
                 content.lastIndexOf("Final delivery") - 17,
@@ -91,6 +93,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
               content = "";
               deliveryDate = "";
+              paymentStatus = "";
             }
 
             // Check Redelivery Status
@@ -105,6 +108,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               // );
               status = "Redelivery Done";
               content = "";
+              paymentStatus = "";
               deliveryDate = "";
             }
 
@@ -124,6 +128,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               // console.log(content.lastIndexOf("Absence. Attempted delivery."));
               status = "Absence";
               content = "";
+              paymentStatus = "";
               deliveryDate = "";
             }
 
@@ -134,6 +139,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               // console.log(content.lastIndexOf("Investigation"));
               status = "Investigation";
               content = "";
+              paymentStatus = "";
               deliveryDate = "";
             }
 
@@ -145,6 +151,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               status = "Reached Post Office";
               content = "";
               deliveryDate = "";
+              paymentStatus = "";
             }
 
             // Check Out From Post office or not
@@ -155,6 +162,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               status = "En route";
               content = "";
               deliveryDate = "";
+              paymentStatus = "";
             }
 
             //
@@ -165,6 +173,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               status = "Post Office Drop";
               content = "";
               deliveryDate = "";
+              paymentStatus = "";
             }
 
             //

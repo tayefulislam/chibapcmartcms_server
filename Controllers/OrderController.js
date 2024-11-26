@@ -199,16 +199,3 @@ exports.getOrderTotalAmountByStatusController = async (req, res, next) => {
 //     });
 //   }
 // };
-
-exports.getAllPreOrderController = async () => {
-  try {
-    const result = await getAllPreOrderService();
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).json({
-      status: "failed",
-      message: "Get All Pre Order Failed",
-      error: error.message,
-    });
-  }
-};

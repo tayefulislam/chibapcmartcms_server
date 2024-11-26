@@ -328,11 +328,3 @@ exports.getPreOrderCountService = async () => {
   console.log("Pre" + result);
   return result;
 };
-
-exports.getAllPreOrderService = async () => {
-  const result = await orderModel
-    .find({ orderType: "Pre-Order" })
-    .sort({ deliveryDate: 1 });
-  console.log("Pre" + result);
-  return result;
-};
