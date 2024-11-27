@@ -172,7 +172,7 @@ exports.getOrderTotalAmountByStatusController = async (req, res, next) => {
     let preOrder = await getPreOrderCountService();
 
     const data = { statusOrder, preOrder };
-    console.log(data);
+    // console.log(data);
 
     res.status(200).send(data);
   } catch (error) {

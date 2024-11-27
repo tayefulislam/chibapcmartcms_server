@@ -10,7 +10,7 @@ exports.getAllOrderDetailsService = async (req) => {
   const keyword = req.query.s || ""; // Use an empty string if the keyword is not provided
   // const keyword = encodeURIComponent(req.query.s) || ""; // Use an empty string if the keyword is not provided
 
-  console.log(keyword);
+  // console.log(keyword);
   const orderType = req.query.orderType || "";
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -325,6 +325,6 @@ exports.getOrderTotalAmountByStatusService = async () => {
 exports.getPreOrderCountService = async () => {
   const result = await orderModel.countDocuments({ orderType: "Pre-Order" });
 
-  console.log("Pre" + result);
+  // console.log("Pre" + result);
   return result;
 };

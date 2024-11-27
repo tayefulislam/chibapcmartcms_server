@@ -1,5 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const moment = require("moment-timezone");
 
 const orderModel = require("../../models/Order");
 
@@ -24,7 +25,7 @@ async function UpdateDeliveryStatus(
 
   const result = await updateDeliveryStatusService(item._id, status, date);
 
-  // console.log(result);
+  console.log(result);
 }
 
 async function UpdateDeliveryAndPaymentStatus() {
@@ -96,7 +97,9 @@ async function UpdateDeliveryAndPaymentStatus() {
                 content.lastIndexOf("Final delivery")
               );
 
-              deliveryDate = new Date(getDeliveryTime);
+              deliveryDate = moment
+                .tz(getDeliveryTime, "MM/DD/YYYY HH:mm", "Asia/Tokyo")
+                .format();
               // console.log("paymentStatus", paymentStatus);
               // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
               content = "";
