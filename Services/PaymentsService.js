@@ -10,10 +10,20 @@ exports.createNewPaymentService = async (payment) => {
 
 exports.updatePaymentDetailsService = async (id, payment) => {
   console.log(payment);
+
   const result = await paymentModel.findOneAndUpdate(
     { _id: id },
     { $set: payment },
     { new: true }
+  );
+
+  return result;
+};
+
+exports.updatePaymentIfPaymentPaid = async (id, payment) => {
+  const result = await paymentModel.findOneAndUpdate(
+    { _id: id },
+    { paymentStatus: "Paid" }
   );
 
   return result;

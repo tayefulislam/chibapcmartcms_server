@@ -4,9 +4,23 @@ const cheerio = require("cheerio");
 const orderModel = require("../../models/Order");
 
 const { updateDeliveryStatusService } = require("../../Services/OrderService");
+const {
+  updatePaymentDetailsService,
+  updatePaymentIfPaymentPaid,
+} = require("../../Services/PaymentsService");
 
-async function UpdateDeliveryStatus(item, status, date) {
+async function UpdateDeliveryStatus(
+  item,
+  status,
+  date,
+  paymentStatus,
+  paymentId
+) {
   // console.log("order Id", item._id, status);
+
+  if (paymentStatus === "Paid") {
+    await updatePaymentIfPaymentPaid(paymentId);
+  }
 
   const result = await updateDeliveryStatusService(item._id, status, date);
 
@@ -31,7 +45,9 @@ async function UpdateDeliveryAndPaymentStatus() {
       let deliveryDate;
       let paymentStatus;
 
-      let trackId = item.paymentObjId.trackId;
+      let trackId = item?.paymentObjId?.trackId;
+      let paymentId = item?.paymentObjId._id;
+      console.log(paymentId);
 
       const url = `https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=${trackId}&searchKind=S002&locale=en`;
 
@@ -81,7 +97,7 @@ async function UpdateDeliveryAndPaymentStatus() {
               );
 
               deliveryDate = new Date(getDeliveryTime);
-              console.log(deliveryDate);
+              // console.log("paymentStatus", paymentStatus);
               // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
               content = "";
             }
@@ -180,7 +196,13 @@ async function UpdateDeliveryAndPaymentStatus() {
           }
 
           {
-            status: UpdateDeliveryStatus(item, status, deliveryDate);
+            status: UpdateDeliveryStatus(
+              item,
+              status,
+              deliveryDate,
+              paymentStatus,
+              paymentId
+            );
           }
 
           // console.log(status);
