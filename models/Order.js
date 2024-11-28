@@ -27,6 +27,10 @@ const orderSchema = new mongoose.Schema(
     itemsDetails: {
       type: Array,
     },
+    orderPostalCode: {
+      type: String,
+      trim: true,
+    },
     deliveryDate: {
       type: Date,
     },

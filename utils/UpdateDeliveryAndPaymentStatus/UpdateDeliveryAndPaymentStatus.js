@@ -97,9 +97,13 @@ async function UpdateDeliveryAndPaymentStatus() {
                 content.lastIndexOf("Final delivery")
               );
 
-              deliveryDate = moment
-                .tz(getDeliveryTime, "MM/DD/YYYY HH:mm", "Asia/Tokyo")
-                .format();
+              const jstDate = moment.tz(
+                getDeliveryTime,
+                "MM/DD/YYYY HH:mm",
+                "Asia/Tokyo"
+              );
+
+              deliveryDate = jstDate.format();
               // console.log("paymentStatus", paymentStatus);
               // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
               content = "";
