@@ -1,4 +1,5 @@
 const orderModel = require("../models/Order");
+const moment = require("moment-timezone");
 
 exports.createNewOrderService = async (order) => {
   const result = await orderModel.create(order);
@@ -285,8 +286,32 @@ exports.updateOrderDetailsService = async (id, order) => {
 
 // get order total amount by status
 
-exports.getOrderTotalAmountByStatusService = async () => {
-  const result = await orderModel.aggregate([
+exports.getOrderTotalAmountByStatusService = async (startDate, endDate) => {
+  let aggregateQuery = [];
+
+  const startDateStr = moment
+    .tz(startDate, "YYYY-MM-DD", "Asia/Tokyo")
+    .format("YYYY-MM-DDTHH:mm:ssZ");
+  const endDateStr = moment
+    .tz(endDate, "YYYY-MM-DD", "Asia/Tokyo")
+    .endOf("day")
+    .format("YYYY-MM-DDTHH:mm:ssZ");
+
+  console.log(startDateStr);
+  console.log(endDateStr);
+
+  if (startDate && endDate) {
+    aggregateQuery.push({
+      $match: {
+        deliveryDate: {
+          $gte: startDateStr,
+          $lte: endDateStr,
+        },
+      },
+    });
+  }
+
+  aggregateQuery.push(
     {
       $group: {
         _id: "$deliveryStatus",
@@ -317,8 +342,11 @@ exports.getOrderTotalAmountByStatusService = async () => {
         totalAmount: 1,
         documentCount: 1,
       },
-    },
-  ]);
+    }
+  );
+
+  console.log(aggregateQuery);
+  const result = await orderModel.aggregate(aggregateQuery);
   return result;
 };
 

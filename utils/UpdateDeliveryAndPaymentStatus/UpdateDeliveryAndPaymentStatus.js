@@ -25,7 +25,7 @@ async function UpdateDeliveryStatus(
 
   const result = await updateDeliveryStatusService(item._id, status, date);
 
-  console.log(result);
+  // console.log(result);
 }
 
 async function UpdateDeliveryAndPaymentStatus() {
@@ -87,8 +87,8 @@ async function UpdateDeliveryAndPaymentStatus() {
             // Check Final Delivery
 
             if (content.lastIndexOf("Final delivery") > 1) {
-              console.log("Final delivery");
-              console.log(content.lastIndexOf("Final delivery"));
+              // console.log("Final delivery");
+              // console.log(content.lastIndexOf("Final delivery"));
               status = "Delivered";
               paymentStatus = "Paid";
 

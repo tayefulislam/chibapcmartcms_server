@@ -9,7 +9,7 @@ exports.createNewPaymentService = async (payment) => {
 };
 
 exports.updatePaymentDetailsService = async (id, payment) => {
-  console.log(payment);
+  // console.log(payment);
 
   const result = await paymentModel.findOneAndUpdate(
     { _id: id },

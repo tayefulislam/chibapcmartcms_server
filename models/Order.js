@@ -32,7 +32,7 @@ const orderSchema = new mongoose.Schema(
       trim: true,
     },
     deliveryDate: {
-      type: Date,
+      type: String,
     },
     timeSlot: {
       type: String,

@@ -166,9 +166,12 @@ exports.updateOrderDetailsController = async (req, res, next) => {
 
 exports.getOrderTotalAmountByStatusController = async (req, res, next) => {
   try {
-    // const status = req.query.status;
+    const { startDate, endDate } = req?.query;
 
-    const statusOrder = await getOrderTotalAmountByStatusService();
+    const statusOrder = await getOrderTotalAmountByStatusService(
+      startDate,
+      endDate
+    );
     let preOrder = await getPreOrderCountService();
 
     const data = { statusOrder, preOrder };
