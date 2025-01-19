@@ -22,6 +22,11 @@ const CustomerSchema = new mongoose.Schema(
     socialMedia: {
       type: String,
     },
+
+    profileLink: {
+      type: String,
+    },
+
     role: {
       type: String,
       default: "customer",

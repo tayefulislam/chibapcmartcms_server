@@ -297,8 +297,8 @@ exports.getOrderTotalAmountByStatusService = async (startDate, endDate) => {
     .endOf("day")
     .format("YYYY-MM-DDTHH:mm:ssZ");
 
-  console.log(startDateStr);
-  console.log(endDateStr);
+  // console.log(startDateStr);
+  // console.log(endDateStr);
 
   if (startDate && endDate) {
     aggregateQuery.push({
@@ -345,7 +345,7 @@ exports.getOrderTotalAmountByStatusService = async (startDate, endDate) => {
     }
   );
 
-  console.log(aggregateQuery);
+  // console.log(aggregateQuery);
   const result = await orderModel.aggregate(aggregateQuery);
   return result;
 };

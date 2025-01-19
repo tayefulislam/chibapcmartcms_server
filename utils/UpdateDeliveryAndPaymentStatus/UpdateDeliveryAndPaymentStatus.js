@@ -52,7 +52,7 @@ async function UpdateDeliveryAndPaymentStatus() {
 
       const url = `https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=${trackId}&searchKind=S002&locale=en`;
 
-      const url2 = `https://trackings.post.japanpost.jp/services/sp/srv/search?requestNo1=${trackId}&search=Beginning&locale=en`;
+      // const url2 = `https://trackings.post.japanpost.jp/services/sp/srv/search?requestNo1=${trackId}&search=Beginning&locale=en`;
       // console.log(url);
 
       axios
@@ -82,6 +82,18 @@ async function UpdateDeliveryAndPaymentStatus() {
 
               content = "";
               deliveryDate = "";
+            }
+
+            // Check Returning Back
+
+            if (content.lastIndexOf("Returned to Sender") > 1) {
+              console.log("Returned to Sender");
+              console.log(content.lastIndexOf("Returned to Sender"));
+
+              status = "Returning Back";
+              // saveWebsiteAsPDF(url, path.join(directory, `${trackId}.pdf`));
+
+              content = "";
             }
 
             // Check Final Delivery
