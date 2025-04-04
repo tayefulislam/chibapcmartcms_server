@@ -18,6 +18,8 @@ cron.schedule("*/2 * * * *", () => {
 
 const orderRequestRoute = require("./Routes/Order.Routes");
 const customerRequestRoute = require("./Routes/Customer.Routes");
+const supplierRequestRoute = require("./Routes/Supplier.Routes");
+const itemRequestRoute = require("./Routes/Item.Routes");
 
 app.get("/", (req, res) => {
   res.send("Chiba pc mart CMS");
@@ -40,5 +42,7 @@ app.get("/pdfs/:fileName", (req, res) => {
 
 app.use("/api/v1/orders", orderRequestRoute);
 app.use("/api/v1/customer", customerRequestRoute);
+app.use("/api/v1/supplier", supplierRequestRoute);
+app.use("/api/v1/item", itemRequestRoute);
 
 module.exports = app;
