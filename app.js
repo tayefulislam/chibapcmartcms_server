@@ -20,6 +20,7 @@ const orderRequestRoute = require("./Routes/Order.Routes");
 const customerRequestRoute = require("./Routes/Customer.Routes");
 const supplierRequestRoute = require("./Routes/Supplier.Routes");
 const itemRequestRoute = require("./Routes/Item.Routes");
+const stockOrderRequestRoute = require("./Routes/StockOrder.Routes");
 
 app.get("/", (req, res) => {
   res.send("Chiba pc mart CMS");
@@ -44,5 +45,6 @@ app.use("/api/v1/orders", orderRequestRoute);
 app.use("/api/v1/customer", customerRequestRoute);
 app.use("/api/v1/supplier", supplierRequestRoute);
 app.use("/api/v1/item", itemRequestRoute);
+app.use("/api/v1/stockOrder", stockOrderRequestRoute);
 
 module.exports = app;
