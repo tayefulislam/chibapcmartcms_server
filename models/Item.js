@@ -39,18 +39,6 @@ const itemSchema = new mongoose.Schema(
     model: {
       type: String,
     },
-    color: {
-      type: String,
-    },
-    storage2: {
-      type: String,
-    },
-    storage: {
-      type: String,
-    },
-    ram: {
-      type: String,
-    },
 
     itemStatus: {
       type: String,

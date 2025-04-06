@@ -24,6 +24,20 @@ const StocksSchema = new mongoose.Schema(
       required: true,
     },
 
+    ram: {
+      type: String,
+    },
+
+    color: {
+      type: String,
+    },
+    storage2: {
+      type: String,
+    },
+    storage: {
+      type: String,
+    },
+
     description: {
       type: String,
     },
