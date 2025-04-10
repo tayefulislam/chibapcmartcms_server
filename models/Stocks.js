@@ -8,7 +8,8 @@ const StocksSchema = new mongoose.Schema(
       required: true,
     },
     productId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
       required: true,
     },
     stockOrderId: {
@@ -16,8 +17,9 @@ const StocksSchema = new mongoose.Schema(
       required: true,
     },
     supplierId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Supplier",
     },
     searchKeyWord: {
       type: String,

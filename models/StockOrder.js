@@ -16,12 +16,14 @@ const stockOrderSchema = new mongoose.Schema(
       required: true,
     },
     productId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Items",
     },
     supplierId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Supplier",
     },
 
     stocks: {
