@@ -29,6 +29,15 @@ const StocksSchema = new mongoose.Schema(
     ram: {
       type: String,
     },
+    processor: {
+      type: String,
+    },
+    gen: {
+      type: String,
+    },
+    imei: {
+      type: String,
+    },
 
     color: {
       type: String,
@@ -54,7 +63,7 @@ const StocksSchema = new mongoose.Schema(
     },
     stockStatus: {
       type: String,
-      default: "NOT READY",
+      default: "NOT_READY",
     },
   },
   {

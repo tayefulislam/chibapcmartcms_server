@@ -9,7 +9,7 @@ exports.getAllStocksService = async (req) => {
   const keyword = req?.query?.s || "";
   const page = parseInt(req?.query?.page) || 1;
   const limit = parseInt(req?.query?.limit) || 10;
-  const itemStatus = req?.query?.itemStatus || "";
+  const stockStatus = req?.query?.itemStatus || "";
 
   const pipeline = [];
 
@@ -70,37 +70,43 @@ exports.getAllStocksService = async (req) => {
   );
 
   // 3. Filter Stage (Conditional)
-  if (itemStatus.trim()) {
-    pipeline.push({ $match: { itemStatus: itemStatus } });
+  if (stockStatus.trim()) {
+    pipeline.push({ $match: { stockStatus } });
   }
 
-  // 4. Pagination
+  // 4. Create count pipeline first
+  const countPipeline = [...pipeline];
+  countPipeline.push({ $count: "total" });
+
+  // 5. Add pagination to main pipeline
   pipeline.push({ $skip: (page - 1) * limit }, { $limit: limit });
 
-  // 5. Default Match if pipeline is empty
-  if (pipeline.length === 0) {
-    pipeline.push({ $match: {} });
-  }
-
   try {
-    const result = await stocksModel.aggregate(pipeline).exec();
-    const total = await stocksModel.countDocuments(pipeline[0]?.$match || {});
+    const [data, totalResult] = await Promise.all([
+      stocksModel.aggregate(pipeline),
+      stocksModel.aggregate(countPipeline),
+    ]);
+
+    const total = totalResult[0]?.total || 0;
+    const totalPages = Math.ceil(total / limit);
 
     return {
       success: true,
-      data: result,
+      data,
       pagination: {
-        page,
+        currentPage: page,
+        previousPage: page > 1 ? page - 1 : null,
+        nextPage: page < totalPages ? page + 1 : null,
+        totalPages,
+        totalDocuments: total,
         limit,
-        total,
-        totalPages: Math.ceil(total / limit),
       },
     };
   } catch (error) {
     console.error("Error fetching stocks:", error);
     return {
       success: false,
-      message: "Failed to fetch stock data",
+      message: "Failed to fetch stocks data",
       error: error.message,
     };
   }
