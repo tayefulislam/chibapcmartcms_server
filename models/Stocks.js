@@ -55,6 +55,9 @@ const StocksSchema = new mongoose.Schema(
     comments: {
       type: Array,
     },
+    trackingNumber: {
+      type: String,
+    },
     purchasePrice: {
       type: String,
     },

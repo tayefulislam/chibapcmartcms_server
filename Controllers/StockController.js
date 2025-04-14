@@ -1,4 +1,7 @@
-const { getAllStocksService } = require("../Services/stocksService");
+const {
+  getAllStocksService,
+  getSingleStockByIdService,
+} = require("../Services/stocksService");
 
 exports.getAllStocksController = async (req, res, next) => {
   try {
@@ -15,8 +18,8 @@ exports.getAllStocksController = async (req, res, next) => {
 };
 
 exports.getSingleStockByIdController = async (req, res, next) => {
-  const id = req.params.stockId;
-  console.log(id);
+  const id = req.params.id;
+  // console.log(id);
   try {
     const result = await getSingleStockByIdService(id);
 
