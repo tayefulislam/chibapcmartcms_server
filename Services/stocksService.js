@@ -130,3 +130,23 @@ exports.getSingleStockByIdService = async (id) => {
 
   return result;
 };
+
+exports.updateStockDetailsService = async (id, stockDetails) => {
+  console.log(stockDetails, Date());
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new Error("Invalid stock ID format");
+  }
+
+  const result = await stocksModel.findOneAndUpdate(
+    { _id: id },
+    { $set: stockDetails },
+    { new: true }
+  );
+
+  if (!result) {
+    throw new Error("Stock not found");
+  }
+
+  return result;
+};
