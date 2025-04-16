@@ -8,4 +8,8 @@ router
   .route("/createNewStockOrder")
   .post(stockOrderHandleController.createNewStockOrderController);
 
+router
+  .route("/getAllStockOrders")
+  .get(stockOrderHandleController.getAllStockOrderController);
+
 module.exports = router;

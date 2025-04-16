@@ -26,9 +26,6 @@ const StocksSchema = new mongoose.Schema(
       required: true,
     },
 
-    ram: {
-      type: String,
-    },
     processor: {
       type: String,
     },
@@ -42,10 +39,25 @@ const StocksSchema = new mongoose.Schema(
     color: {
       type: String,
     },
+    ram: {
+      type: String,
+    },
     storage2: {
       type: String,
     },
     storage: {
+      type: String,
+    },
+    readyRam: {
+      type: String,
+    },
+    readyStorage: {
+      type: String,
+    },
+    readyStorage2: {
+      type: String,
+    },
+    size: {
       type: String,
     },
 
